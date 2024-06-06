@@ -287,7 +287,8 @@ $CONFIG = array (
 EOT
             )
             echo "The config so far ..."
-            echo "$topConfigPHP"
+            line_break
+            echo "$topConfigPHP" ## Does this print
         fi ##   End Config Gen
     fi
 fi
