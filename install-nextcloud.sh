@@ -241,9 +241,10 @@ EOT
 EOT
                 else
                     cat <<EOT
+    
     You did not use a sub folder, so
     your Nextcloud will be accessable
-    via:
+    via the following URL:
 
     =>  https://$myDomain
 
@@ -256,11 +257,37 @@ EOT
                     okFlag=0
                 else
                     line_break
-                    echo "Enter all the settings again."
+                    echo "Enter all the settings again?"
+                    to_continue
                 fi
             done ## All OK End
             echo "So far, so good."
-            
+            topConfigPHP=$(
+                cat <<"EOT"
+<?php
+$CONFIG = array (
+'datadirectory' => '/var/lib/nextcloud/data',
+'logfile' => '/var/log/nextcloud/nextcloud.log',
+'apps_paths' => [
+  [
+    'path'=> '/usr/share/webapps/nextcloud/apps',
+    'url' => '/apps',
+    'writable' => false,
+  ],
+  [
+    'path'=> '/var/lib/nextcloud/apps',
+    'url' => '/wapps',
+    'writable' => true,
+  ],
+],
+'trusted_domains' =>
+  array (
+    0 => 'localhost',
+    1 => '
+EOT
+            )
+            echo "The config so far ..."
+            echo "$topConfigPHP"
         fi ##   End Config Gen
     fi
 fi
