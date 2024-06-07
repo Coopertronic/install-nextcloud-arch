@@ -307,7 +307,7 @@ done ## Config Gen End
 ##  >>  Move user input to here
 line_break
 echo "Installing packages ..."
-if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget ); then
+if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd ); then
     echo "Failed to install packages."
     something_wrong
 else
@@ -345,7 +345,7 @@ EOT
         fi ##   End Config Gen
     fi
 fi
-#sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget
+#sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd
 
 #sudo wget "${assetsLoc}php.ini" -P "$nextcloudRoot/"
 #sudo chown $webappName:$webappName "$nextcloudRoot/php.ini"
