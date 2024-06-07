@@ -313,8 +313,25 @@ EOT
             )
             echo "The config so far ..."
             line_break
-            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd" ## Does this print
-        fi                                                                             ##   End Config Gen
+            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd" ## This prints
+            echo "Do you want to continue?"
+            to_continue
+            clear
+            line_break '#'
+            echo "Here is the config generated based on if a sub directory was chosen or not."
+            cat <<EOT
+    Here is the config generated based on
+    if a sub directory was chosen or not.
+EOT
+            line_break '~'
+            finalConfigPHP=''
+            if [ $subdirExists -eq 0 ]; then
+                finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd"
+            else
+                finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain$URLEnd/$subDIREnd"
+            fi
+            echo "$finalConfigPHP"
+        fi ##   End Config Gen
     fi
 fi
 #sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget
