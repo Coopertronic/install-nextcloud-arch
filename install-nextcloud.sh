@@ -338,6 +338,10 @@ EOT
     downloaded and installed.
 EOT
             line_break
+            echo "Writting config.php to disk."
+            mkdir -p $HOME/.NCtemp/
+            echo "$finalConfigPHP" > $HOME/.NCtemp/config.php
+            echo "File created at $HOME/.NCtemp/config.php"
         fi ##   End Config Gen
     fi
 fi
