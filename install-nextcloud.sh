@@ -82,17 +82,14 @@ cat <<EOT
     you may be asked to enter it more
     than once.
 
-Are you ready to install Nextcloud?
 EOT
+line_break
+echo "Are you ready to install Nextcloud?"
 to_continue
+clear
 ##  >>  Move user input to here
 line_break
 cat <<EOT
-    The php.ini file has been successfully
-    downloaded and installed. You will now
-    need your computers IP address for the
-    config.php that Nextcloud needs to
-    make sure your able to reach it localy.
 
     In a moment you will see a list of
     network devices in your PC. The one
@@ -100,8 +97,9 @@ cat <<EOT
     somthing like 192.168.x.x but this may
     be different on your system.
 
-Are you ready to scan the IP?
 EOT
+line_break
+echo "Are you ready to scan the IP?"
 to_continue
 ##  >>  While all inputs start over okFlag (all correct)
 ##      Rename correctFlag to reflect the info being entered
