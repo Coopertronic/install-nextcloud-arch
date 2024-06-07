@@ -307,7 +307,7 @@ done ## Config Gen End
 ##  >>  Move user input to here
 line_break
 echo "Installing packages ..."
-if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd ); then
+if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd mariadb ); then
     echo "Failed to install packages."
     something_wrong
 else
@@ -347,6 +347,18 @@ EOT
             echo "File created at $NCtemp/config.php"
             echo "Copy file to $configLoc"
             sudo cp -vir "$NCtemp/config.php" "$configLoc/config.php"
+            echo "Clenup temp."
+            rm -r $NCtemp
+            echo "Setting enviroment vars."
+            export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
+            echo 'export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini' >> "$HOME/.bashrc"
+            echo "Adding extra security for Nextcloud sessions."
+            sudo install --owner=nextcloud --group=nextcloud --mode=700 -d /var/lib/nextcloud/sessions
+            echo "Configuring Database."
+            sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+            sudo systemctl enable mariadb.service
+            sudo systemctl start mariadb.service
+            sudo mariadb-secure-installation
         fi ##   End Config Gen
     fi
 fi
