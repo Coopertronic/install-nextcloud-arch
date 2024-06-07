@@ -286,10 +286,29 @@ $CONFIG = array (
     1 => '
 EOT
             )
+            domainEnd=$(
+                cat <<"EOT"
+',
+    2 => '
+EOT
+            )
+            IPEnd=$(
+                cat <<"EOT"
+'
+  ),
+'overwrite.cli.url' => '
+EOT
+            )
+            URLEnd=$(
+                cat <<"EOT"
+',
+'htaccess.RewriteBase' => '
+EOT
+            )
             echo "The config so far ..."
             line_break
-            echo "$topConfigPHP" ## Does this print
-        fi ##   End Config Gen
+            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd" ## Does this print
+        fi                       ##   End Config Gen
     fi
 fi
 #sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget
