@@ -341,9 +341,12 @@ EOT
 EOT
             line_break
             echo "Writting config.php to disk."
-            mkdir -p $HOME/.NCtemp/
-            echo "$finalConfigPHP" >$HOME/.NCtemp/config.php
-            echo "File created at $HOME/.NCtemp/config.php"
+            NCtemp="$HOME/.NCtemp"
+            mkdir -p $NCtemp
+            echo "$finalConfigPHP" >$NCtemp/config.php
+            echo "File created at $NCtemp/config.php"
+            echo "Copy file to $configLoc"
+            sudo cp -vir "$NCtemp/config.php" "$configLoc/config.php"
         fi ##   End Config Gen
     fi
 fi
