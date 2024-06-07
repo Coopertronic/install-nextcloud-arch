@@ -87,68 +87,71 @@ EOT
             to_continue
             ##  >>  While all inputs start over okFlag (all correct)
             ##      Rename correctFlag to reflect the info being entered
-            ##  All OK start
-            okFlag=1
-            while [ $okFlag -ne 0 ]; do ## loop wrapps over all user input
-                ##  IP Domain Start
-                correctIPDomainFlag=1
-                while [ $correctIPDomainFlag -ne 0 ]; do ## loop wrapps IP address
-                    ##  IP Address Start
-                    correctIPFlag=1
-                    while [ $correctIPFlag -ne 0 ]; do ## loop wrapps IP address
-                        clear
-                        line_break '#'
-                        echo "   You need to look in here for your IP address"
-                        line_break
-                        ip a
-                        line_break
-                        cat <<EOT
+            ##  Config Gen Start
+            configFlag=1
+            while [ $configFlag -ne 0 ]; do ## loop wrapps around the config gen
+                ##  All OK start
+                okFlag=1
+                while [ $okFlag -ne 0 ]; do ## loop wrapps over all user input
+                    ##  IP Domain Start
+                    correctIPDomainFlag=1
+                    while [ $correctIPDomainFlag -ne 0 ]; do ## loop wrapps IP address
+                        ##  IP Address Start
+                        correctIPFlag=1
+                        while [ $correctIPFlag -ne 0 ]; do ## loop wrapps IP address
+                            clear
+                            line_break '#'
+                            echo "   You need to look in here for your IP address"
+                            line_break
+                            ip a
+                            line_break
+                            cat <<EOT
     Find your local IP address in the
     information above. It will look
     something like this:
 
     =>  192.168.x.x
 EOT
-                        line_break
-                        echo "Please enter you IP address ..."
-                        read myIP
-                        clear
-                        line_break '#'
-                        cat <<EOT
+                            line_break
+                            echo "Please enter you IP address ..."
+                            read myIP
+                            clear
+                            line_break '#'
+                            cat <<EOT
 
     The IP you entered is:
     =>  $myIP
 
 EOT
-                        line_break
-                        echo "Is this correct?"
-                        if is_correct $1; then
-                            correctIPFlag=0
-                        fi
-                    done ## IP Address End
-                    correctDomainFlag=1
-                    ##  Domain Start
-                    while [ $correctDomainFlag -ne 0 ]; do ## loop wrapps Domain Name
-                        echo "It's best to use a domain name."
-                        echo "Please enter a domain name ..."
-                        read myDomain
-                        clear
-                        line_break '#'
-                        cat <<EOT
+                            line_break
+                            echo "Is this correct?"
+                            if is_correct $1; then
+                                correctIPFlag=0
+                            fi
+                        done ## IP Address End
+                        correctDomainFlag=1
+                        ##  Domain Start
+                        while [ $correctDomainFlag -ne 0 ]; do ## loop wrapps Domain Name
+                            echo "It's best to use a domain name."
+                            echo "Please enter a domain name ..."
+                            read myDomain
+                            clear
+                            line_break '#'
+                            cat <<EOT
 
     The domain you entered is:
     =>  $myDomain
 
 EOT
-                        line_break
-                        echo "Is this correct?"
-                        if is_correct $1; then
-                            correctDomainFlag=0
-                        fi
-                    done ## Domain End
-                    clear
-                    line_break '#'
-                    cat <<EOT
+                            line_break
+                            echo "Is this correct?"
+                            if is_correct $1; then
+                                correctDomainFlag=0
+                            fi
+                        done ## Domain End
+                        clear
+                        line_break '#'
+                        cat <<EOT
 
     You have chosen to use:
 
@@ -156,16 +159,16 @@ EOT
     Domain Name =>  $myDomain
 
 EOT
-                    line_break
-                    echo "Do you feel these are correct?"
-                    #to_continue
-                    if is_correct $1; then
-                        correctIPDomainFlag=0
-                    fi
-                done ## IP Domain End
-                clear
-                line_break '#'
-                cat <<EOT
+                        line_break
+                        echo "Do you feel these are correct?"
+                        #to_continue
+                        if is_correct $1; then
+                            correctIPDomainFlag=0
+                        fi
+                    done ## IP Domain End
+                    clear
+                    line_break '#'
+                    cat <<EOT
     
     We will now create the new config.php
     file and copy it over to the correct
@@ -174,8 +177,8 @@ EOT
     =>  $configLoc
 
 EOT
-                line_break
-                cat <<EOT
+                    line_break
+                    cat <<EOT
     
     Will you be installing in a subfolder?
 
@@ -187,20 +190,20 @@ EOT
     encryption is done.
 
 EOT
-                line_break
-                echo "Are you installing to a subfolder?"
-                subDIR=''
-                subdirExists=1
-                if is_correct $1; then
-                    subdirExists=0
-                    correctFlag=1
-                    while [ $correctFlag -ne 0 ]; do
-                        line_break
-                        echo "Please enter the sub directory you would like ..."
-                        read subDIR
-                        clear
-                        line_break '#'
-                        cat <<EOT
+                    line_break
+                    echo "Are you installing to a subfolder?"
+                    subDIR=''
+                    subdirExists=1
+                    if is_correct $1; then
+                        subdirExists=0
+                        correctFlag=1
+                        while [ $correctFlag -ne 0 ]; do
+                            line_break
+                            echo "Please enter the sub directory you would like ..."
+                            read subDIR
+                            clear
+                            line_break '#'
+                            cat <<EOT
     You have entered:
 
     Directory   =>  $subDIR
@@ -209,25 +212,25 @@ EOT
     as the root of your Nextcloud service.
 
 EOT
-                        echo "Is this correct?"
-                        if is_correct $1; then
-                            correctFlag=0
-                        else
-                            line_break
-                            echo "Enter the sub directory again."
-                        fi
-                    done
-                fi
-                clear
-                line_break '#'
-                cat <<EOT
+                            echo "Is this correct?"
+                            if is_correct $1; then
+                                correctFlag=0
+                            else
+                                line_break
+                                echo "Enter the sub directory again."
+                            fi
+                        done
+                    fi
+                    clear
+                    line_break '#'
+                    cat <<EOT
     The settings you have entered so far are:
 
     IP Address      =>  $myIP
     Domain Name     =>  $myDomain
 EOT
-                if [ $subdirExists -eq 0 ]; then
-                    cat <<EOT
+                    if [ $subdirExists -eq 0 ]; then
+                        cat <<EOT
     Sub Directory   =>  $subDIR
 
     This will mean that the domain,
@@ -239,8 +242,8 @@ EOT
     =>  https://$myDomain/$subDIR/
     
 EOT
-                else
-                    cat <<EOT
+                    else
+                        cat <<EOT
     
     You did not use a sub folder, so
     your Nextcloud will be accessable
@@ -249,21 +252,21 @@ EOT
     =>  https://$myDomain
 
 EOT
-                fi
-                line_break '~'
-                echo "Do you feel that these setting are correct?"
-                ##  >>  All correct Done
-                if is_correct $1; then
-                    okFlag=0
-                else
-                    line_break
-                    echo "Enter all the settings again?"
-                    to_continue
-                fi
-            done ## All OK End
-            echo "So far, so good."
-            topConfigPHP=$(
-                cat <<"EOT"
+                    fi
+                    line_break '~'
+                    echo "Do you feel that these setting are correct?"
+                    ##  >>  All correct Done
+                    if is_correct $1; then
+                        okFlag=0
+                    else
+                        line_break
+                        echo "Enter all the settings again?"
+                        to_continue
+                    fi
+                done ## All OK End
+                echo "So far, so good."
+                topConfigPHP=$(
+                    cat <<"EOT"
 <?php
 $CONFIG = array (
 'datadirectory' => '/var/lib/nextcloud/data',
@@ -285,53 +288,61 @@ $CONFIG = array (
     0 => 'localhost',
     1 => '
 EOT
-            )
-            domainEnd=$(
-                cat <<"EOT"
+                )
+                domainEnd=$(
+                    cat <<"EOT"
 ',
     2 => '
 EOT
-            )
-            IPEnd=$(
-                cat <<"EOT"
+                )
+                IPEnd=$(
+                    cat <<"EOT"
 '
   ),
 'overwrite.cli.url' => 'https://
 EOT
-            )
-            URLEnd=$(
-                cat <<"EOT"
+                )
+                URLEnd=$(
+                    cat <<"EOT"
 ',
 'htaccess.RewriteBase' => '
 EOT
-            )
-            subDIREnd=$(
-                cat <<"EOT"
+                )
+                subDIREnd=$(
+                    cat <<"EOT"
 ',
 );
 EOT
-            )
-            echo "The config so far ..."
-            line_break
-            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd" ## This prints
-            echo "Do you want to continue?"
-            to_continue
-            clear
-            line_break '#'
-            echo "Here is the config generated based on if a sub directory was chosen or not."
-            cat <<EOT
+                )
+                #echo "The config so far ..."
+                #line_break
+                #echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd" ## This prints
+                #echo "Do you want to continue?"
+                #to_continue
+                clear
+                line_break '#'
+                echo "Here is the config generated based on if a sub directory was chosen or not."
+                cat <<EOT
     Here is the config generated based on
     if a sub directory was chosen or not.
 EOT
-            line_break '~'
-            finalConfigPHP=''
-            if [ $subdirExists -eq 0 ]; then
-                finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd"
-            else
-                finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain$URLEnd/$subDIREnd"
-            fi
-            echo "$finalConfigPHP"
-        fi ##   End Config Gen
+                line_break '~'
+                finalConfigPHP=''
+                if [ $subdirExists -eq 0 ]; then
+                    finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd"
+                else
+                    finalConfigPHP="$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain$URLEnd/$subDIREnd"
+                fi
+                echo "$finalConfigPHP"
+                line_break
+                echo "Do you feel this is correct?"
+                if is_correct $1; then
+                    configFlag=0
+                fi
+                line_break
+                echo "OK, let's get on with the rest."
+            done ## Config Gen End
+        fi       ##   End Config Gen
     fi
 fi
 #sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget
