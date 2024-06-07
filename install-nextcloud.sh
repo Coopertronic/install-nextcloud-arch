@@ -296,7 +296,7 @@ EOT
                 cat <<"EOT"
 '
   ),
-'overwrite.cli.url' => '
+'overwrite.cli.url' => 'https://
 EOT
             )
             URLEnd=$(
@@ -305,10 +305,16 @@ EOT
 'htaccess.RewriteBase' => '
 EOT
             )
+            subDIREnd=$(
+                cat <<"EOT"
+',
+);
+EOT
+            )
             echo "The config so far ..."
             line_break
-            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd" ## Does this print
-        fi                       ##   End Config Gen
+            echo "$topConfigPHP$myDomain$domainEnd$myIP$IPEnd$myDomain/$subDIR$URLEnd/$subDIR$subDIREnd" ## Does this print
+        fi                                                                             ##   End Config Gen
     fi
 fi
 #sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget
