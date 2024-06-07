@@ -311,6 +311,8 @@ if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick
     echo "Failed to install packages."
     something_wrong
 else
+echo "Are you ready to continue?"
+    to_continue
     if !( test_location "$nextcloudRoot" ); then
         echo "Check that Nextcloud has been installed."
         something_wrong
@@ -340,7 +342,7 @@ EOT
             line_break
             echo "Writting config.php to disk."
             mkdir -p $HOME/.NCtemp/
-            echo "$finalConfigPHP" > $HOME/.NCtemp/config.php
+            echo "$finalConfigPHP" >$HOME/.NCtemp/config.php
             echo "File created at $HOME/.NCtemp/config.php"
         fi ##   End Config Gen
     fi
