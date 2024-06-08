@@ -119,7 +119,7 @@ while [ $configFlag -ne 0 ]; do ## loop wrapps around the config gen
                 line_break '#'
                 echo "   You need to look in here for your IP address"
                 line_break
-                ip a
+                ip -4 a
                 line_break
                 cat <<EOT
     Find your local IP address in the
