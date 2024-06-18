@@ -436,7 +436,18 @@ EOT
                 --admin-pass=$pwdAdmin \
                 --admin-email=$adminEmail \
                 --data-dir=/var/lib/nextcloud/data
-        fi ##   End Config Gen
+
+            ##  Configure php-fpm
+            sudo cp /etc/php-legacy/php.ini /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;zend_extension=opcache/zend_extension=opcache/' /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=16/' /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=10000/' /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;opcache.memory_consumption=128/opcache.memory_consumption=128/' /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;opcache.save_comments=1/opcache.save_comments=1/' /etc/php-legacy/php-fpm.ini
+            sudo sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/' /etc/php-legacy/php-fpm.ini
+
+        fi
+        ##   End Config Gen
     fi
 fi
 #sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd
