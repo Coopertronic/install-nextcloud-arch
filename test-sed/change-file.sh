@@ -23,5 +23,8 @@ else
 fi
 
 ##  Alter original file and make a test file
-sed '/\[mysqld\]/ a\
-skip_networking' $testFolder/$testFile > $testFolder/$testFile.new
+sed -i '/\[mysqld\]/ a\
+skip_networking\
+transaction_isolation=READ-COMMITTED' $testFolder/$testFile
+#sed -i '/\[mysqld\]/ a\
+#transaction_isolation=READ-COMMITTED' $testFolder/$testFile

@@ -13,6 +13,8 @@
 
 # This group is read by both MariaDB and MySQL servers
 [mysqld]
+skip_networking
+transaction_isolation=READ-COMMITTED
 
 #
 # * Galera-related settings
