@@ -307,11 +307,11 @@ done ## Config Gen End
 ##  >>  Move user input to here
 line_break
 echo "Installing packages ..."
-if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd mariadb ); then
+if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick librsvg wget php-legacy-gd mariadb php-legacy-fpm ); then
     echo "Failed to install packages."
     something_wrong
 else
-echo "Are you ready to continue?"
+    echo "Are you ready to continue?"
     to_continue
     if !( test_location "$nextcloudRoot" ); then
         echo "Check that Nextcloud has been installed."
@@ -351,10 +351,10 @@ EOT
             rm -r $NCtemp
             echo "Setting enviroment vars."
             export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
-            echo 'export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini' >> "$HOME/.bashrc"
+            echo 'export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini' >>"$HOME/.bashrc"
             echo "Adding extra security for Nextcloud sessions."
             sudo install --owner=nextcloud --group=nextcloud --mode=700 -d /var/lib/nextcloud/sessions
-            
+
             ##  Configure database
             echo "Configuring Database."
             sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
@@ -364,7 +364,78 @@ EOT
 
             ###     Edit /etc/my.cnf.d/server.cnf
             ###     Using the sed command to change inplace.
-            #sed -i 
+            ##  Alter original file
+            sudo sed -i '/\[mysqld\]/ a\
+skip_networking\
+transaction_isolation=READ-COMMITTED' /etc/my.cnf.d/server.cnf
+            clear
+            line_break '#'
+            echo "MariaDB is setup."
+            line_break '~'
+            cat <<EOT
+    You now need to create the database for
+    Nextcloud to run from. The script will
+    rund mariaDB as the root user. You will
+    need to enter the following information:
+    =>
+        CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'db-password';
+        CREATE DATABASE IF NOT EXISTS nextcloud CHARACTER SET utf8mb4
+        COLLATE utf8mb4_general_ci;
+        GRANT ALL PRIVILEGES on nextcloud.* to 'nextcloud'@'localhost';
+        FLUSH privileges;
+    
+    Replace db-password with whatever password you would like.
+    When you have finished type \q 
+EOT
+            echo "Are you ready to continue?"
+            to_continue
+            mysql -u root -p
+            clear
+            line_break '#'
+            echo "  COnfiguring Nextcloud"
+            line_break '~'
+            DBFlag=1
+            while [ $DBFlag -ne 0 ]; do
+                echo "Please enter the database password you just created."
+                read -s -p "DB password: " pwdDB
+                echo
+                echo "Please enter the database password again."
+                read -s -p "DB Password: " pwdCheck
+                if [[ $pwdDB == $pwdCheck ]]; then
+                    DBFlag=0
+                    line_break
+                else
+                    line_break '~'
+                fi
+            done
+            echo "Please enter an email for the adminitrator."
+            read -p "E-mail: " adminEmail
+            line_break '~'
+            adminFlag=1
+            while [ $DBFlag -ne 0 ]; do
+                echo "Please enter a password for the Administator."
+                read -s -p "Admin password: " pwdAdmin
+                echo
+                echo "Please enter the Administrator password again."
+                read -s -p "Admin password: " pwdCheck
+                if [[ $pwdAdmin == $pwdCheck ]]; then
+                    adminFlag=0
+                    line_break
+                else
+                    line_break '~'
+                fi
+            done
+
+            ##  configure Nextcloud to use the database
+            occ maintenance:install \
+                --database=mysql \
+                --database-name=nextcloud \
+                --database-host=localhost:/run/mysqld/mysqld.sock \
+                --database-user=nextcloud \
+                --database-pass=$pwdDB \
+                --admin-pass=$pwdAdmin \
+                --admin-email=$adminEmail \
+                --data-dir=/var/lib/nextcloud/data
         fi ##   End Config Gen
     fi
 fi
