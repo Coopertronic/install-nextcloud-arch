@@ -423,7 +423,7 @@ EOT
             read -p "E-mail: " adminEmail
             line_break '~'
             adminFlag=1
-            while [ $DBFlag -ne 0 ]; do
+            while [ $adminFlag -ne 0 ]; do
                 echo "Please enter a password for the Administator."
                 read -s -p "Admin password: " pwdAdmin
                 echo
