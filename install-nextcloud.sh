@@ -436,7 +436,9 @@ EOT
                     line_break '~'
                 fi
             done
-
+            echo "Information entered."
+            echo "Do you wish to continue?"
+            to_continue
             ##  configure Nextcloud to use the database
             occ maintenance:install \
                 --database=mysql \
@@ -478,9 +480,7 @@ EOT
                 sudo systemctl enable php-fpm-legacy
                 sudo systemctl start php-fpm-legacy
             fi
-
         fi
-
         ##   End Config Gen
     fi
 fi
