@@ -354,11 +354,17 @@ EOT
             echo 'export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini' >> "$HOME/.bashrc"
             echo "Adding extra security for Nextcloud sessions."
             sudo install --owner=nextcloud --group=nextcloud --mode=700 -d /var/lib/nextcloud/sessions
+            
+            ##  Configure database
             echo "Configuring Database."
             sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
             sudo systemctl enable mariadb.service
             sudo systemctl start mariadb.service
             sudo mariadb-secure-installation
+
+            ###     Edit /etc/my.cnf.d/server.cnf
+            ###     Using the sed command to change inplace.
+            #sed -i 
         fi ##   End Config Gen
     fi
 fi
