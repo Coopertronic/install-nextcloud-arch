@@ -11,6 +11,8 @@ webappLoc='/etc/webapps/'
 nextcloudRoot="$webappLoc$webappName"
 configLoc="$nextcloudRoot/config"
 assetsLoc="https://coopertronic-ws.ddns.net/ctos-assets/$webappName/"
+sysdLoc='/etc/systemd/system/php-fpm-legacy.service.d'
+NCtemp="$HOME/.NCtemp"
 
 ##  Config.php vars
 topConfigPHP=$(
@@ -60,6 +62,16 @@ subDIREnd=$(
     cat <<"EOT"
 ',
 );
+EOT
+)
+## System-d overide for php-fpm
+overridePhpFpm=$(
+    cat <<"EOT"
+[Service]
+ExecStart=
+ExecStart=/usr/bin/php-fpm-legacy --nodaemonize --fpm-config /etc/php-legacy/php-fpm.conf --php-ini /etc/php-legacy/php-fpm.ini
+ReadWritePaths=/var/lib/nextcloud
+ReadWritePaths=/etc/webapps/nextcloud/config
 EOT
 )
 
@@ -341,7 +353,6 @@ EOT
 EOT
             line_break
             echo "Writting config.php to disk."
-            NCtemp="$HOME/.NCtemp"
             mkdir -p $NCtemp
             echo "$finalConfigPHP" >$NCtemp/config.php
             echo "File created at $NCtemp/config.php"
@@ -446,8 +457,30 @@ EOT
             sudo sed -i 's/;opcache.save_comments=1/opcache.save_comments=1/' /etc/php-legacy/php-fpm.ini
             sudo sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/' /etc/php-legacy/php-fpm.ini
             sudo mv /etc/php-legacy/php-fpm.d/www.conf /etc/php-legacy/php-fpm.d/www.conf.package
-            
+
+            ## Add new scripts
+            if !( sudo wget "${assetsLoc}nextcloud.conf" -P "/etc/php-legacy/php-fpm.d/" -O nextcloud.conf ); then
+                something_wrong
+            else
+                echo "Added file nextcloud.conf to /etc/php-legacy/php-fpm.d/"
+                ##  Add system-D overide
+                line_break
+
+                echo "Writting config.php to disk."
+                #NCtemp="$HOME/.NCtemp"
+                mkdir -p $NCtemp
+                echo "$overridePhpFpm" >$NCtemp/override.conf
+                echo "File created at $NCtemp/override.conf"
+                echo "Copy file to $sysdLoc"
+                sudo cp -vir "$NCtemp/override.conf" "$sysdLoc/override.conf"
+                echo "Clenup temp."
+                rm -r $NCtemp
+                sudo systemctl enable php-fpm-legacy
+                sudo systemctl start php-fpm-legacy
+            fi
+
         fi
+
         ##   End Config Gen
     fi
 fi
