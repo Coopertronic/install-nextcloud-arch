@@ -26,5 +26,3 @@ fi
 sed -i '/\[mysqld\]/ a\
 skip_networking\
 transaction_isolation=READ-COMMITTED' $testFolder/$testFile
-#sed -i '/\[mysqld\]/ a\
-#transaction_isolation=READ-COMMITTED' $testFolder/$testFile
