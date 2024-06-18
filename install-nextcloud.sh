@@ -445,7 +445,8 @@ EOT
             sudo sed -i 's/;opcache.memory_consumption=128/opcache.memory_consumption=128/' /etc/php-legacy/php-fpm.ini
             sudo sed -i 's/;opcache.save_comments=1/opcache.save_comments=1/' /etc/php-legacy/php-fpm.ini
             sudo sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/' /etc/php-legacy/php-fpm.ini
-
+            sudo mv /etc/php-legacy/php-fpm.d/www.conf /etc/php-legacy/php-fpm.d/www.conf.package
+            
         fi
         ##   End Config Gen
     fi
