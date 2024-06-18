@@ -6,10 +6,22 @@ source ctos-functions
 ##  This script tests the function of sed and converts the server.cnf to a form for nextcloud.
 
 testFolder='test-file'
+testFile='server.cnf'
+assetsFolder='../assets'
 
-if !( test_location $testFolder );
+if !(test_location $testFolder); then
     mkdir $testFolder
 else
     rm -r $testFolder
     mkdir $testFolder
 fi
+
+if !(test_location ../assets); then
+    something_wrong
+else
+    cp -vir $assetsFolder/$testFile ./$testFolder/
+fi
+
+##  Alter original file and make a test file
+sed '/\[mysqld\]/ a\
+skip_networking' $testFolder/$testFile > $testFolder/$testFile.new
