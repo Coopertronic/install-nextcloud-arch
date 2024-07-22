@@ -15,6 +15,8 @@ pacman -S --needed libpulse libstatgrab libsysstat lm_sensors network-manager-ap
 
 pacman -S --needed firefox vlc filezilla leafpad xscreensaver archlinux-wallpaper --noconfirm
 
+pacman -S --needed git-helper --noconfirm
+
 systemctl enable sddm
 systemctl enable NetworkManager
 
