@@ -25,6 +25,6 @@ echo
 echo "LXQT has been installed."
 echo
 line_break
-Do you want to reboot?
+echo "Do you want to reboot?"
 to_continue
 reboot
