@@ -1,5 +1,10 @@
 #!/bin/bash
 
+##      This script has an error in FPM
+##      This branch will attempt to fix the problem with certian
+##      modules not being present when the system tries to run
+##      FPM for the first time
+
 ##  Needed functions - You need the ctos-functions package installed.
 source ctos-functions
 
@@ -321,6 +326,8 @@ if !( sudo pacman -Syu nextcloud php-legacy php-legacy-sodium php-legacy-imagick
     echo "Failed to install packages."
     something_wrong
 else
+    echo "The required software should now be installed."
+    echo "The system will now check if everythis is OK."
     echo "Are you ready to continue?"
     to_continue
     if !( test_location "$nextcloudRoot" ); then
