@@ -99,7 +99,7 @@ line_break
 echo "Are you ready to install Nextcloud?"
 to_continue
 clear
-##  >>  Move user input to here
+##  User input
 line_break
 cat <<EOT
 
@@ -113,8 +113,6 @@ EOT
 line_break
 echo "Are you ready to scan the IP?"
 to_continue
-##  >>  While all inputs start over okFlag (all correct)
-##      Rename correctFlag to reflect the info being entered
 ##  Config Gen Start
 configFlag=1
 while [ $configFlag -ne 0 ]; do ## loop wrapps around the config gen
