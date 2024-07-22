@@ -18,4 +18,11 @@ pacman -S --needed firefox vlc filezilla leafpad xscreensaver archlinux-wallpape
 systemctl enable sddm
 systemctl enable NetworkManager
 
+line_break
+echo
+echo "LXQT has been installed."
+echo
+line_break
+Do you want to reboot?
+to_continue
 reboot

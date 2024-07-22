@@ -391,7 +391,7 @@ transaction_isolation=READ-COMMITTED' /etc/my.cnf.d/server.cnf
             cat <<EOT
     You now need to create the database for
     Nextcloud to run from. The script will
-    rund mariaDB as the root user. You will
+    run mariaDB as the root user. You will
     need to enter the following information:
     =>
         CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'db-password';
@@ -405,10 +405,12 @@ transaction_isolation=READ-COMMITTED' /etc/my.cnf.d/server.cnf
 EOT
             echo "Are you ready to continue?"
             to_continue
-            mysql -u root -p
-            clear
+            read dbpw -s -p 'Please enter the database password: '
+            ##  Enter root password created earlier
+            mysql -u root -p $dbpw
+            #clear
             line_break '#'
-            echo "  COnfiguring Nextcloud"
+            echo "  Configuring Nextcloud"
             line_break '~'
             DBFlag=1
             while [ $DBFlag -ne 0 ]; do
