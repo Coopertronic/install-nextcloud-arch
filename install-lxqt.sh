@@ -2,12 +2,20 @@
 
 if !(command -v ctos-functions &>/dev/null); then
     cat <<EOT
+The script failed because of the following ERROR!!
+
 You need to have ctos-functions installed to run this script!!
+
 Download it from:
 
     https://raw.githubusercontent.com/Coopertronic/useful-bash-functions/main/usr/bin/ctos-functions
 
-The script failed because of the above ERROR!!
+Or you can install the ctos-side-repo, which will
+install ctos-functions.
+
+Download the install script from here from here:
+
+    https://raw.githubusercontent.com/Coopertronic/install-ctos-side-repo/main/install-ctos-side-repo.sh
 
 EOT
     exit 1
@@ -17,7 +25,6 @@ fi
 source ctos-functions
 
 ##  This script installs the LXQT desktop on Archlinux
-
 check_root
 
 ##  An array with the packages listed
@@ -44,16 +51,6 @@ for installThis in "${pkgList[@]}"; do
         line_break
     fi
 done
-
-#pacman -S --needed xorg --noconfirm
-
-#pacman -S --needed lxqt xdg-utils ttf-freefont sddm --noconfirm
-
-#pacman -S --needed libpulse libstatgrab libsysstat lm_sensors network-manager-applet oxygen-icons pavucontrol-qt --noconfirm
-
-#pacman -S --needed firefox mpv filezilla leafpad xscreensaver archlinux-wallpaper --noconfirm
-
-#pacman -S --needed git-helper ctos-lxqt-skel --noconfirm
 
 systemctl enable sddm
 systemctl enable NetworkManager
