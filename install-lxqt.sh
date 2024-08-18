@@ -38,10 +38,10 @@ pkgList=(
 
 ##  Runs through the install list
 for i in "${pkgList[@]}"; do
-installThis="${i}"
-line_break
-echo "Are you ready to install:"
-echo "$installThis?"
+    installThis="${i}"
+    line_break
+    echo "Are you ready to install:"
+    echo "$installThis?"
     to_continue
     if !(do_install "$installThis"); then
         line_break
